@@ -9,6 +9,8 @@ const startServer = () => {
   const app = express();
   const port = Number(process.env.PORT);
 
+  app.use(express.json());
+
   app.use("/api/water", waterRouter);
 
   return app.listen(port, () => {
