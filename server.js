@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 
 import authRouter from "./routes/authRouter.js";
+import waterRouter from "./routes/waterRouter.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const startServer = () => {
   app.use(express.json());
 
   app.use("/api/users", authRouter);
+  app.use("/api/water", waterRouter);
 
   app.use((_, res) => {
     res.status(404).json({ message: "Route not found" });
