@@ -5,6 +5,7 @@ import cors from "cors";
 
 import authRouter from "./routes/authRouter.js";
 import waterRouter from "./routes/waterRouter.js";
+import trackersRouter from "./routes/trackersRouter.js";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ const startServer = () => {
   app.use("/api/users", authRouter);
 
   app.use("/api/water", waterRouter);
-
+  app.use("/api/trackers", trackersRouter);
   app.use((_, res) => {
     res.status(404).json({ message: "Route not found" });
   });
