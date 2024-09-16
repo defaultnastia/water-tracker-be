@@ -17,6 +17,7 @@ const startServer = () => {
   app.use(express.json());
 
   app.use("/api/users", authRouter);
+
   app.use("/api/water", waterRouter);
 
   app.use((_, res) => {
