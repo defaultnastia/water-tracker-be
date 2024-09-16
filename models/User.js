@@ -7,7 +7,6 @@ const userSchema = new Schema(
   {
     userName: {
       type: String,
-      unique: true,
       default: null,
     },
     userEmail: {
@@ -26,7 +25,8 @@ const userSchema = new Schema(
     },
     userGender: {
       type: String,
-      default: null,
+      enum: ["male", "female"],
+      default: "female",
     },
     userWeight: {
       type: Number,
@@ -41,8 +41,8 @@ const userSchema = new Schema(
       default: null,
     },
     trackerSetId: {
-      type: Array,
-      default: [],
+      type: Schema.Types.ObjectId,
+      ref: "water",
     },
     userToken: {
       type: String,
