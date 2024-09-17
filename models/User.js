@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 import { handleSaveError, setUpdateOptions } from "./hooks.js";
-import { emailRegExp } from "../constants/user-constants.js";
+import { emailRegExp, gendersList } from "../constants/user-constants.js";
 
 const userSchema = new Schema(
   {
@@ -25,7 +25,7 @@ const userSchema = new Schema(
     },
     userGender: {
       type: String,
-      enum: ["male", "female"],
+      enum: gendersList,
       default: "female",
     },
     userWeight: {
