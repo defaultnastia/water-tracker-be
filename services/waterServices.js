@@ -11,41 +11,22 @@ export const listWater = async (filter) => {
 
   const waters = await Water.aggregate([
     { $match: { owner } },
-    {
-      $unwind: "$waterRecords",
-    },
-    {
-      $match: {
-        "waterRecords.date": { $gte: startPeriod, $lt: endPeriod },
-      },
-    },
-    {
-      $replaceRoot: {
-        newRoot: "$waterRecords",
-      },
-    },
+    { $unwind: "$waterRecords" },
+    { $match: { "waterRecords.date": { $gte: startPeriod, $lt: endPeriod } } },
+    { $replaceRoot: { newRoot: "$waterRecords" } },
   ]);
+
   return waters;
 };
 
-export const getContactById = (filter) => {
+export const getWaterById = async (filter) => {
   const { _id, owner } = filter;
 
-  const water = Water.aggregate([
+  const water = await Water.aggregate([
     { $match: { owner } },
-    {
-      $unwind: "$waterRecords",
-    },
-    {
-      $match: {
-        "waterRecords._id": new ObjectId(_id),
-      },
-    },
-    {
-      $replaceRoot: {
-        newRoot: "$waterRecords",
-      },
-    },
+    { $unwind: "$waterRecords" },
+    { $match: { "waterRecords._id": new ObjectId(_id) } },
+    { $replaceRoot: { newRoot: "$waterRecords" } },
   ]);
 
   return water;
@@ -82,10 +63,7 @@ export const updateWaterById = async (filter, data) => {
   await Water.findOneAndUpdate(
     { owner, "waterRecords._id": new ObjectId(_id) },
     { $set: updateFields },
-    {
-      new: true,
-      runValidators: true,
-    }
+    { new: true, runValidators: true }
   );
 
   const water = await Water.aggregate([
@@ -94,6 +72,7 @@ export const updateWaterById = async (filter, data) => {
     { $match: { "waterRecords._id": new ObjectId(_id) } },
     { $replaceRoot: { newRoot: "$waterRecords" } },
   ]);
+
   return water;
 };
 

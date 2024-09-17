@@ -1,35 +1,44 @@
 import * as waterService from "../services/waterServices.js";
-
 import controllerWrapper from "../decorators/controllerWrapper.js";
 import HttpError from "../helpers/HttpError.js";
 
 const getWater = async (req, res) => {
-  const { year, month, day } = req.query;
+  const { year, month, day, from, to, date } = req.query;
   const { _id: owner } = req.user;
 
-  if (!year || !month) {
-    throw HttpError(400, "Year, month are required in request");
-  }
+  let startPeriod, endPeriod;
 
-  let filter;
-
-  if (!day) {
-    filter = {
-      owner,
-      year,
-      month,
-    };
+  if (from && to) {
+    startPeriod = new Date(parseInt(from, 10));
+    endPeriod = new Date(parseInt(to, 10));
+  } else if (date) {
+    const dateStr = date.toString();
+    startPeriod = new Date(
+      `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(
+        6,
+        8
+      )}T00:00:00Z`
+    );
+    endPeriod = new Date(startPeriod);
+    endPeriod.setDate(startPeriod.getDate() + 1);
+  } else if (month && year) {
+    startPeriod = new Date(`${year}-${month}-01T00:00:00Z`);
+    endPeriod = new Date(startPeriod);
+    endPeriod.setMonth(endPeriod.getMonth() + 1);
+  } else if (year) {
+    startPeriod = new Date(`${year}-01-01T00:00:00Z`);
+    endPeriod = new Date(`${year}-12-31T23:59:59Z`);
   } else {
-    filter = {
-      owner,
-      year,
-      month,
-      day,
-    };
+    throw HttpError(400, "Invalid query parameters");
   }
+
+  const filter = {
+    owner,
+    startPeriod,
+    endPeriod,
+  };
 
   const result = await waterService.listWater(filter);
-
   res.json(result);
 };
 
