@@ -32,4 +32,6 @@ authRouter.patch(
   authControllers.userUpdate
 );
 
+authRouter.get("/", authControllers.getAllUsers);
+
 export default authRouter;

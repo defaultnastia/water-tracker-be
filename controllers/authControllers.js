@@ -65,10 +65,17 @@ const userUpdate = async (req, res) => {
   });
 };
 
+const getAllUsers = async (_, res) => {
+  const users = await authServices.allUsers();
+
+  res.status(200).json(users.length);
+};
+
 export default {
   userSignup: controllerWrapper(userSignup),
   userSignin: controllerWrapper(userSignin),
   userCurrent: controllerWrapper(userCurrent),
   userLogout: controllerWrapper(userLogout),
   userUpdate: controllerWrapper(userUpdate),
+  getAllUsers: controllerWrapper(getAllUsers),
 };
