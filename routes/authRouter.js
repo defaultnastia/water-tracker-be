@@ -22,4 +22,6 @@ authRouter.post("/signout", authenticate, authControllers.userLogout);
 
 authRouter.patch("/", authenticate, authControllers.userUpdate);
 
+authRouter.get("/", authControllers.getAllUsers);
+
 export default authRouter;
