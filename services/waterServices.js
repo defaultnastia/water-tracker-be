@@ -3,6 +3,7 @@ const { ObjectId } = mongoose.Types;
 import getStartAndEndOfPeriod from "../helpers/getStartAndEndPeriod.js";
 import Water from "../models/Water.js";
 import HttpError from "../helpers/HttpError.js";
+import User from "../models/User.js";
 
 export const listWater = async (filter) => {
   const { year, month, day, owner } = filter;
@@ -57,7 +58,13 @@ export const createWater = async (data) => {
   const water = await Water.findOne({ owner });
 
   if (!water) {
-    return Water.create(data);
+    const newWater = await Water.create(data);
+
+    const filter = { _id: owner };
+
+    await User.findOneAndUpdate(filter, { trackerSetId: newWater._id });
+
+    return newWater;
   }
 
   const updatedWater = await Water.findOneAndUpdate(
