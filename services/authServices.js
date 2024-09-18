@@ -9,6 +9,8 @@ export const findUser = (user) => User.findOne(user);
 
 export const updateUser = (filter, data) => User.findOneAndUpdate(filter, data);
 
+export const allUsers = () => User.find();
+
 export const signup = async (data) => {
   const { userEmail, userPassword } = data;
   const user = await findUser({ userEmail });
