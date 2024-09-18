@@ -1,3 +1,6 @@
+import cloudinary from "../helpers/cloudinary.js";
+import * as fs from "node:fs/promises";
+
 import * as authServices from "../services/authServices.js";
 
 import controllerWrapper from "../decorators/controllerWrapper.js";
@@ -58,7 +61,15 @@ const userLogout = async (req, res) => {
 const userUpdate = async (req, res) => {
   const { _id } = req.user;
 
-  await authServices.updateUser({ _id }, { ...req.body });
+  const { path: oldPath } = req.file;
+
+  const { url: userAvatar } = await cloudinary.uploader.upload(oldPath, {
+    folder: "avatars",
+  });
+
+  await fs.unlink(oldPath);
+
+  await authServices.updateUser({ _id }, { ...req.body, userAvatar });
 
   res.status(200).json({
     message: "User has been update",

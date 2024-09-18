@@ -10,6 +10,7 @@ import {
   userUpdateSchema,
 } from "../schemas/userSchemas.js";
 import validateBody from "../decorators/validateBody.js";
+import upload from "../middlewares/upload.js";
 
 const userSignupMiddleware = validateBody(userSignupSchema);
 const userSigninMiddleware = validateBody(userSigninSchema);
@@ -28,6 +29,7 @@ authRouter.post("/signout", authenticate, authControllers.userLogout);
 authRouter.patch(
   "/",
   authenticate,
+  upload.single("userAvatar"),
   userUpdateMiddleware,
   authControllers.userUpdate
 );
