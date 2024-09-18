@@ -43,6 +43,7 @@ const userSchema = new Schema(
     trackerSetId: {
       type: Schema.Types.ObjectId,
       ref: "water",
+      default: null,
     },
     userToken: {
       type: String,
