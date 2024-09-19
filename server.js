@@ -2,9 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
+import * as swaggerUi from "swagger-ui-express";
 
 import authRouter from "./routes/authRouter.js";
 import waterRouter from "./routes/waterRouter.js";
+import swaggerRouter from "./routes/swaggerRouter.js";
 
 dotenv.config();
 
@@ -19,6 +21,8 @@ const startServer = () => {
   app.use("/api/users", authRouter);
 
   app.use("/api/water", waterRouter);
+
+  app.use("/api/docs", swaggerUi.serve, swaggerRouter);
 
   app.use((_, res) => {
     res.status(404).json({ message: "Route not found" });

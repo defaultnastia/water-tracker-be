@@ -77,7 +77,7 @@ const userUpdate = async (req, res) => {
   await authServices.updateUser({ _id }, { ...req.body, userAvatar });
 
   res.status(200).json({
-    message: "User has been update",
+    message: "User has been updated",
   });
 };
 

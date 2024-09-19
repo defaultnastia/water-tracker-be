@@ -7,8 +7,6 @@ import { findUser } from "../services/authServices.js";
 const authenticate = async (req, _, next) => {
   const { authorization } = req.headers;
 
-  console.log(authorization);
-
   if (!authorization) return next(HttpError(401, "Not authorized"));
 
   const [bearer, token] = authorization.split(" ");
@@ -21,8 +19,6 @@ const authenticate = async (req, _, next) => {
 
   const { id } = data;
   const user = await findUser({ _id: id });
-
-  console.log(user);
 
   if (!user) return next(HttpError(401, "Not authorized"));
 

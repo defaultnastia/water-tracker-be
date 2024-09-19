@@ -1,0 +1,422 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.2",
+    "title": "Aqua Tracker API Documentation",
+    "description": "Description of the /users and /water endpoints"
+  },
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
+  "servers": [
+    { "url": "http://localhost:3000" },
+    { "url": "https://water-tracker-be-production.up.railway.app" }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User authorization endpoints"
+    }
+  ],
+  "paths": {
+    "/api/users/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Sign-up user",
+        "parameters": [],
+        "requestBody": {
+          "description": "Sign-up user object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User was successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User with this email already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/signin": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Sign-in user",
+        "requestBody": {
+          "description": "Sign-in user object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User was successfully signed-in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignInResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/current": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current user's data",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/signout": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Sign-out user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User signed-out successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update user and upload a file if exists",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Update user object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User was successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPatchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SignUpRequest": {
+        "type": "object",
+        "required": ["userEmail", "userPassword"],
+        "properties": {
+          "userEmail": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "userPassword": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "SignUpResponse": {
+        "type": "object",
+        "properties": {
+          "userEmail": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        },
+        "example": {
+          "user": {
+            "email": "example@example.com"
+          }
+        }
+      },
+      "SignInRequest": {
+        "type": "object",
+        "required": ["userEmail", "userPassword"],
+        "properties": {
+          "userEmail": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "userPassword": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "SignInResponse": {
+        "type": "object",
+        "properties": {
+          "userEmail": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "userToken": {
+            "type": "string",
+            "description": "User's Bearer token"
+          }
+        },
+        "example": {
+          "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4Mjc1MCwiZXhwIjoxNzI3MDg3NTUwfQ.IMeRld9fDnMCLfWh7_bveDWLPKdk0wO7YZ8_lD6nO3A",
+          "user": {
+            "userEmail": "example@example.com"
+          }
+        }
+      },
+      "UserPatchRequest": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "userEmail": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "userAvatar": {
+            "type": "string",
+            "format": "binary"
+          },
+          "userGender": {
+            "type": "string",
+            "description": "User's name",
+            "enum": ["female", "male"]
+          },
+          "userWeight": {
+            "type": "number",
+            "description": "User's weight"
+          },
+          "userActiveTime": {
+            "type": "number",
+            "description": "User's activity hours"
+          },
+          "userWaterGoal": {
+            "type": "number",
+            "description": "User's water consumption goal"
+          }
+        },
+        "example": {
+          "userEmail": "anaS1U@ana.com",
+          "userWeight": 60
+        }
+      },
+      "UserPatchResponse": {
+        "type": "object",
+        "required": ["message"],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Status of update operation"
+          }
+        },
+        "example": {
+          "message": "User was successfully updated"
+        }
+      },
+      "CurrentResponse": {
+        "type": "object",
+        "properties": {
+          "userEmail": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "userToken": {
+            "type": "string",
+            "description": "User's Bearer token"
+          },
+          "userName": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "userAvatar": {
+            "type": "string",
+            "description": "Path to the user's avatar"
+          },
+          "userGender": {
+            "type": "string",
+            "description": "User's name",
+            "enum": ["female", "male"]
+          },
+          "userWeight": {
+            "type": "number",
+            "description": "User's weight"
+          },
+          "userActiveTime": {
+            "type": "number",
+            "description": "User's activity hours"
+          },
+          "userWaterGoal": {
+            "type": "number",
+            "description": "User's water consumption goal"
+          }
+        },
+        "example": {
+          "userName": "Example Name",
+          "userEmail": "example@example.com",
+          "userAvatar": "path/to/photo",
+          "userGender": "female",
+          "userWeight": 65000,
+          "userActiveTime": 2,
+          "userWaterGoal": null,
+          "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4MzgwMywiZXhwIjoxNzI3MDg4NjAzfQ.jxjQpNVl0nJlRhc59yTpL8JaNIG4zE-or_QVkHKqpgs"
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "description": "Reason" }
+        },
+        "example": {
+          "message": "An error that occurred: not authorized, required field, duplicate, etc"
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
