@@ -15,6 +15,10 @@
     {
       "name": "Users",
       "description": "User authorization endpoints"
+    },
+    {
+      "name": "Water",
+      "description": "Water tracker endpoints"
     }
   ],
   "paths": {
@@ -229,6 +233,78 @@
           }
         }
       }
+    },
+    "/api/water/": {
+      "get": {
+        "tags": ["Water"],
+        "summary": "Get current user's water tracker set",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "year",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Year to filter the water consumption records"
+          },
+          {
+            "in": "query",
+            "name": "month",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Month to filter the water consumption records"
+          },
+          {
+            "in": "query",
+            "name": "day",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Day to filter the water consumption records"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterSetResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -352,6 +428,46 @@
           "message": "User was successfully updated"
         }
       },
+      "WaterSetResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "User's id"
+            },
+            "date": {
+              "type": "string",
+              "format": "date-time",
+              "description": "User's weight"
+            },
+            "quantity": {
+              "type": "number",
+              "description": "User's activity hours"
+            },
+            "userWaterGoal": {
+              "type": "number",
+              "description": "User's water consumption goal"
+            }
+          }
+        },
+        "example": [
+          {
+            "userWaterGoal": 1500,
+            "date": "2024-09-17T18:09:08.000Z",
+            "quantity": 250,
+            "_id": "66e9c7ed994cd2e9ea7c177e"
+          },
+          {
+            "userWaterGoal": 1500,
+            "date": "2024-09-17T18:09:08.000Z",
+            "quantity": 250,
+            "_id": "66ea7d4bfad188b6b5c10cb1"
+          }
+        ]
+      },
       "CurrentResponse": {
         "type": "object",
         "properties": {
@@ -401,6 +517,7 @@
           "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4MzgwMywiZXhwIjoxNzI3MDg4NjAzfQ.jxjQpNVl0nJlRhc59yTpL8JaNIG4zE-or_QVkHKqpgs"
         }
       },
+
       "ErrorResponse": {
         "type": "object",
         "properties": {
