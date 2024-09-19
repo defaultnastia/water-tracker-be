@@ -5,7 +5,7 @@
     "title": "Aqua Tracker API Documentation",
     "description": "Description of the /users and /water endpoints"
   },
-  "consumes": ["application/json"],
+  "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
   "servers": [
     { "url": "http://localhost:3000" },
@@ -179,7 +179,7 @@
     "/api/users/": {
       "patch": {
         "tags": ["Users"],
-        "summary": "Update user",
+        "summary": "Update user and upload a file if exists",
         "security": [
           {
             "BearerAuth": []
@@ -189,7 +189,7 @@
           "description": "Update user object",
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UserPatchRequest"
               }
@@ -314,7 +314,7 @@
           },
           "userAvatar": {
             "type": "string",
-            "description": "Path to the user's avatar file"
+            "format": "binary"
           },
           "userGender": {
             "type": "string",
