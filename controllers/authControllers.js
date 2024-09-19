@@ -61,13 +61,18 @@ const userLogout = async (req, res) => {
 const userUpdate = async (req, res) => {
   const { _id } = req.user;
 
-  const { path: oldPath } = req.file;
+  let userAvatar;
 
-  const { url: userAvatar } = await cloudinary.uploader.upload(oldPath, {
-    folder: "avatars",
-  });
+  if (req.file) {
+    const { path } = req.file;
+    const { url } = await cloudinary.uploader.upload(path, {
+      folder: "avatars",
+    });
 
-  await fs.unlink(oldPath);
+    await fs.unlink(path);
+
+    userAvatar = url;
+  }
 
   await authServices.updateUser({ _id }, { ...req.body, userAvatar });
 
