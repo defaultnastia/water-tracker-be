@@ -8,12 +8,9 @@ import {
   userSignupSchema,
   userSigninSchema,
   userUpdateSchema,
-} from "../schemas/userSchemas.js";
-import {
-  userSignupSchema,
-  userSigninSchema,
   userForgotPasswordSchema,
 } from "../schemas/userSchemas.js";
+
 import validateBody from "../decorators/validateBody.js";
 import upload from "../middlewares/upload.js";
 
@@ -41,7 +38,6 @@ authRouter.patch(
 );
 
 authRouter.get("/", authControllers.getAllUsers);
-authRouter.patch("/", authenticate, authControllers.userUpdate);
 
 authRouter.patch(
   "/forgot-password",
