@@ -87,6 +87,21 @@ const getAllUsers = async (_, res) => {
   res.status(200).json(users.length);
 };
 
+const userForgotPassword = async (req, res) => {
+  const { _id } = req.user;
+  const { userOldPassword, userNewPassword } = req.body;
+
+  await authServices.forgotPassword({
+    _id,
+    userOldPassword,
+    userNewPassword,
+  });
+
+  res.status(200).json({
+    message: "Password has been update",
+  });
+};
+
 export default {
   userSignup: controllerWrapper(userSignup),
   userSignin: controllerWrapper(userSignin),
@@ -94,4 +109,5 @@ export default {
   userLogout: controllerWrapper(userLogout),
   userUpdate: controllerWrapper(userUpdate),
   getAllUsers: controllerWrapper(getAllUsers),
+  userForgotPassword: controllerWrapper(userForgotPassword),
 };

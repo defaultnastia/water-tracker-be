@@ -47,3 +47,21 @@ export const signin = async (data) => {
     },
   };
 };
+
+export const forgotPassword = async (data) => {
+  const { _id, userOldPassword, userNewPassword } = data;
+  const user = await findUser(_id);
+
+  if (!user) throw HttpError(401, "User not found");
+
+  const passwordCompare = await bcrypt.compare(
+    userOldPassword,
+    user.userPassword
+  );
+
+  if (!passwordCompare) throw HttpError(401, "Invalid old password");
+
+  const hashNewPassword = await bcrypt.hash(userNewPassword, 10);
+
+  return await updateUser({ _id }, { userPassword: hashNewPassword });
+};
