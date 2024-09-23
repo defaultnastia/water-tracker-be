@@ -460,12 +460,406 @@
               }
             }
           },
+          "404": {
+            "description": "No water records found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "description": "Reason" }
+                  },
+                  "example": {
+                    "message": "No water records found for this user"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Water"],
+        "summary": "Add a record to water tracker",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Water track set object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "waterRecords": {
+                    "type": "array",
+                    "items": {
+                      "water": { "$ref": "#/components/examples/water/water" }
+                    },
+                    "quantity": {
+                      "$ref": "#/components/examples/water/quantity"
+                    },
+                    "userWaterGoal": {
+                      "$ref": "#/components/examples/water/userWaterGoal"
+                    }
+                  }
+                },
+                "example": {
+                  "waterRecords": [
+                    {
+                      "userWaterGoal": 1500,
+                      "date": 1726773826444,
+                      "quantity": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Water record was added successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userWaterGoal": {
+                      "$ref": "#/components/examples/water/userWaterGoal"
+                    },
+                    "date": {
+                      "$ref": "#/components/examples/water/date"
+                    },
+                    "quantity": {
+                      "$ref": "#/components/examples/water/quantity"
+                    }
+                  },
+                  "example": {
+                    "userWaterGoal": 1500,
+                    "date": 1726773826444,
+                    "quantity": 50
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad request (invalid request body)",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Water"],
+        "summary": "Add a record to water tracker",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "year",
+            "schema": {
+              "type": "integer",
+              "minimum": 2024
+            },
+            "required": true,
+            "description": "Year to filter the water consumption records"
+          },
+          {
+            "in": "query",
+            "name": "month",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12
+            },
+            "required": true,
+            "description": "Month to filter the water consumption records"
+          },
+          {
+            "in": "query",
+            "name": "day",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 31
+            },
+            "required": true,
+            "description": "Day to filter the water consumption records"
+          }
+        ],
+        "requestBody": {
+          "description": "Update date norm object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userWaterGoal": {
+                    "$ref": "#/components/examples/water/userWaterGoal"
+                  }
+                },
+                "example": {
+                  "userWaterGoal": 2000
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Water daily norm starting from today today was updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userWaterGoal": {
+                      "modifiedCount": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "example": {
+                    "modifiedCount": 1
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/water/{waterId}": {
+      "get": {
+        "tags": ["Water"],
+        "summary": "Get water record data by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "waterId",
+            "schema": { "type": "string" },
+            "required": "true",
+            "description": "ID of the water record"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": { "$ref": "#/components/examples/water/date" },
+                    "quantity": {
+                      "$ref": "#/components/examples/water/quantity"
+                    },
+                    "userWaterGoal": {
+                      "$ref": "#/components/examples/water/userWaterGoal"
+                    },
+                    "_id": { "$ref": "#/components/examples/water/_id" }
+                  }
+                },
+                "example": {
+                  "userWaterGoal": 1500,
+                  "date": "2024-09-19T19:23:46.444Z",
+                  "quantity": 50,
+                  "_id": "66ec7b31505ca8ba4996b089"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No water records found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "description": "Reason" }
+                  },
+                  "example": {
+                    "message": "No water records found for this user"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Water"],
+        "summary": "Update a record in water tracker",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "waterId",
+            "schema": { "type": "string" },
+            "required": "true",
+            "description": "ID of the water record"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Water track set object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": { "$ref": "#/components/examples/water/date" },
+                  "quantity": { "$ref": "#/components/examples/water/quantity" }
+                },
+                "example": {
+                  "date": 1726773826444,
+                  "quantity": 50
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Water record was added successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userWaterGoal": {
+                      "$ref": "#/components/examples/water/userWaterGoal"
+                    },
+                    "date": {
+                      "$ref": "#/components/examples/water/date"
+                    },
+                    "quantity": {
+                      "$ref": "#/components/examples/water/quantity"
+                    }
+                  },
+                  "example": {
+                    "userWaterGoal": 1500,
+                    "date": ["2024-09-19T19:23:46.444Z"],
+                    "quantity": 50,
+                    "_id": "66ec7b31505ca8ba4996b089"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Water"],
+        "summary": "Get water record data by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "waterId",
+            "schema": { "type": "string" },
+            "required": "true",
+            "description": "ID of the water record"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Water record was deleted"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
                 }
               }
             }
@@ -572,6 +966,32 @@
         "trackerSetId": {
           "type": "string",
           "description": "ID of the water records set, related to the user"
+        }
+      },
+      "water": {
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of water record added by user",
+          "example": "1726773826444"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of water in milliliters record added by user",
+          "minimum": 50,
+          "maximum": 5000,
+          "example": 200
+        },
+        "userWaterGoal": {
+          "type": "number",
+          "description": "User's water consumption goal in milliliters",
+          "minimum": 1000,
+          "maximum": 5000,
+          "example": 1500
+        },
+        "_id": {
+          "type": "string",
+          "example": "66ec7b31505ca8ba4996b089"
         }
       }
     },

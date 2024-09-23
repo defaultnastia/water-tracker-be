@@ -42,11 +42,11 @@ const getOneWater = async (req, res) => {
 
   const result = await waterService.getContactById({ _id: id, owner });
 
-  if (!result) {
+  if (!result[0]) {
     throw HttpError(404, `Water with id - ${id} not found`);
   }
 
-  res.json(result);
+  res.json(result[0]);
 };
 
 const addWaterIncome = async (req, res) => {
@@ -65,11 +65,11 @@ const updateWater = async (req, res) => {
     req.body
   );
 
-  if (!result) {
+  if (!result[0]) {
     throw HttpError(404, `Water with id - ${id} not found`);
   }
 
-  res.json(result);
+  res.json(result[0]);
 };
 
 const updateDayNorm = async (req, res) => {
@@ -101,9 +101,9 @@ const removeWaterIncome = async (req, res) => {
   const { id } = req.params;
   const { _id: owner } = req.user;
 
-  const result = await waterService.removeWater({ _id: id, owner });
+  await waterService.removeWater({ _id: id, owner });
 
-  res.json(result);
+  res.status(204).json();
 };
 
 export default {
