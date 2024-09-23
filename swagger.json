@@ -8,8 +8,8 @@
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "http://localhost:3000" },
-    { "url": "https://water-tracker-be-production.up.railway.app" }
+    { "url": "https://water-tracker-be-production.up.railway.app" },
+    { "url": "http://localhost:3000" }
   ],
   "tags": [
     {
@@ -26,14 +26,22 @@
       "post": {
         "tags": ["Users"],
         "summary": "Sign-up user",
-        "parameters": [],
         "requestBody": {
           "description": "Sign-up user object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SignUpRequest"
+                "type": "object",
+                "properties": {
+                  "userEmail": {
+                    "$ref": "#/components/examples/users/userEmail"
+                  },
+                  "userPassword": {
+                    "$ref": "#/components/examples/users/userPassword"
+                  }
+                },
+                "required": ["userEmail", "userPassword"]
               }
             }
           }
@@ -44,7 +52,22 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SignUpResponse"
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "$ref": "#/components/examples/users/userEmail"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "user": {
+                      "email": "example@example.com"
+                    }
+                  }
                 }
               }
             }
@@ -54,7 +77,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/BadRequestResponse"
                 }
               }
             }
@@ -64,7 +87,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "description": "Reason" }
+                  },
+                  "example": {
+                    "message": "Email is already in use"
+                  }
                 }
               }
             }
@@ -82,7 +111,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SignInRequest"
+                "type": "object",
+                "properties": {
+                  "userEmail": {
+                    "$ref": "#/components/examples/users/userEmail"
+                  },
+                  "userPassword": {
+                    "$ref": "#/components/examples/users/userPassword"
+                  }
+                },
+                "required": ["userEmail", "userPassword"]
               }
             }
           }
@@ -93,7 +131,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SignInResponse"
+                  "type": "object",
+                  "properties": {
+                    "userToken": {
+                      "$ref": "#/components/examples/users/userToken"
+                    },
+                    "user": {
+                      "userEmail": {
+                        "$ref": "#/components/examples/users/userEmail"
+                      }
+                    }
+                  },
+                  "example": {
+                    "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4Mjc1MCwiZXhwIjoxNzI3MDg3NTUwfQ.IMeRld9fDnMCLfWh7_bveDWLPKdk0wO7YZ8_lD6nO3A",
+                    "user": {
+                      "userEmail": "example@example.com"
+                    }
+                  }
                 }
               }
             }
@@ -103,17 +157,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/BadRequestResponse"
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Wrong credentials or no such user",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "description": "Reason" }
+                  },
+                  "example": {
+                    "message": "Email or password is wrong"
+                  }
                 }
               }
             }
@@ -136,7 +196,43 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CurrentResponse"
+                  "type": "object",
+                  "properties": {
+                    "userEmail": {
+                      "$ref": "#/components/examples/users/userEmail"
+                    },
+                    "userName": {
+                      "$ref": "#/components/examples/users/userName"
+                    },
+                    "userAvatar": {
+                      "$ref": "#/components/examples/users/userAvatar"
+                    },
+                    "userGender": {
+                      "$ref": "#/components/examples/users/userGender"
+                    },
+                    "userWeight": {
+                      "$ref": "#/components/examples/users/userWeight"
+                    },
+                    "userActiveTime": {
+                      "$ref": "#/components/examples/users/userActiveTime"
+                    },
+                    "userWaterGoal": {
+                      "$ref": "#/components/examples/users/userWaterGoal"
+                    },
+                    "trackerSetId": {
+                      "$ref": "#/components/examples/users/trackerSetId"
+                    }
+                  },
+                  "example": {
+                    "userName": "Username",
+                    "userEmail": "userS4@example.com",
+                    "userAvatar": null,
+                    "userGender": "female",
+                    "userWeight": 65000,
+                    "userActiveTime": 3,
+                    "userWaterGoal": 1500,
+                    "trackerSetId": "66ec7b31505ca8ba4996b088"
+                  }
                 }
               }
             }
@@ -146,7 +242,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
                 }
               }
             }
@@ -165,14 +261,14 @@
         ],
         "responses": {
           "204": {
-            "description": "User signed-out successfully"
+            "description": "User signed-out successfully, no body"
           },
           "401": {
             "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
                 }
               }
             }
@@ -195,7 +291,27 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UserPatchRequest"
+                "type": "object",
+                "properties": {
+                  "userEmail": {
+                    "$ref": "#/components/examples/users/userEmail"
+                  },
+                  "userAvatar": {
+                    "$ref": "#/components/examples/users/userAvatar"
+                  },
+                  "userGender": {
+                    "$ref": "#/components/examples/users/userGender"
+                  },
+                  "userWeight": {
+                    "$ref": "#/components/examples/users/userWeight"
+                  },
+                  "userActiveTime": {
+                    "$ref": "#/components/examples/users/userActiveTime"
+                  },
+                  "userWaterGoal": {
+                    "$ref": "#/components/examples/users/userWaterGoal"
+                  }
+                }
               }
             }
           }
@@ -206,7 +322,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserPatchResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Status of update operation"
+                    }
+                  },
+                  "example": {
+                    "message": "User was successfully updated"
+                  }
                 }
               }
             }
@@ -243,7 +368,8 @@
             "in": "query",
             "name": "year",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 2024
             },
             "required": true,
             "description": "Year to filter the water consumption records"
@@ -252,7 +378,9 @@
             "in": "query",
             "name": "month",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12
             },
             "required": true,
             "description": "Month to filter the water consumption records"
@@ -261,7 +389,9 @@
             "in": "query",
             "name": "day",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 31
             },
             "required": false,
             "description": "Day to filter the water consumption records"
@@ -278,7 +408,44 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WaterSetResponse"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "User's id"
+                      },
+                      "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "User's weight"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "description": "User's activity hours"
+                      },
+                      "userWaterGoal": {
+                        "type": "number",
+                        "description": "User's water consumption goal"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "userWaterGoal": 1500,
+                      "date": "2024-09-17T18:09:08.000Z",
+                      "quantity": 250,
+                      "_id": "66e9c7ed994cd2e9ea7c177e"
+                    },
+                    {
+                      "userWaterGoal": 1500,
+                      "date": "2024-09-17T18:09:08.000Z",
+                      "quantity": 250,
+                      "_id": "66ea7d4bfad188b6b5c10cb1"
+                    }
+                  ]
                 }
               }
             }
@@ -288,17 +455,33 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
                 }
               }
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No water records found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "description": "Reason" }
+                  },
+                  "example": {
+                    "message": "No water records found for this user"
+                  }
                 }
               }
             }
@@ -309,222 +492,86 @@
   },
   "components": {
     "schemas": {
-      "SignUpRequest": {
-        "type": "object",
-        "required": ["userEmail", "userPassword"],
-        "properties": {
-          "userEmail": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
-          "userPassword": {
-            "type": "string",
-            "description": "User's password",
-            "example": "qwerty123"
-          }
-        }
-      },
-      "SignUpResponse": {
-        "type": "object",
-        "properties": {
-          "userEmail": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          }
-        },
-        "example": {
-          "user": {
-            "email": "example@example.com"
-          }
-        }
-      },
-      "SignInRequest": {
-        "type": "object",
-        "required": ["userEmail", "userPassword"],
-        "properties": {
-          "userEmail": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
-          "userPassword": {
-            "type": "string",
-            "description": "User's password",
-            "example": "qwerty123"
-          }
-        }
-      },
-      "SignInResponse": {
-        "type": "object",
-        "properties": {
-          "userEmail": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
-          "userToken": {
-            "type": "string",
-            "description": "User's Bearer token"
-          }
-        },
-        "example": {
-          "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4Mjc1MCwiZXhwIjoxNzI3MDg3NTUwfQ.IMeRld9fDnMCLfWh7_bveDWLPKdk0wO7YZ8_lD6nO3A",
-          "user": {
-            "userEmail": "example@example.com"
-          }
-        }
-      },
-      "UserPatchRequest": {
-        "type": "object",
-        "properties": {
-          "userName": {
-            "type": "string",
-            "description": "User's name"
-          },
-          "userEmail": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
-          "userAvatar": {
-            "type": "string",
-            "format": "binary"
-          },
-          "userGender": {
-            "type": "string",
-            "description": "User's name",
-            "enum": ["female", "male"]
-          },
-          "userWeight": {
-            "type": "number",
-            "description": "User's weight"
-          },
-          "userActiveTime": {
-            "type": "number",
-            "description": "User's activity hours"
-          },
-          "userWaterGoal": {
-            "type": "number",
-            "description": "User's water consumption goal"
-          }
-        },
-        "example": {
-          "userEmail": "anaS1U@ana.com",
-          "userWeight": 60
-        }
-      },
-      "UserPatchResponse": {
-        "type": "object",
-        "required": ["message"],
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Status of update operation"
-          }
-        },
-        "example": {
-          "message": "User was successfully updated"
-        }
-      },
-      "WaterSetResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "format": "uuid",
-              "description": "User's id"
-            },
-            "date": {
-              "type": "string",
-              "format": "date-time",
-              "description": "User's weight"
-            },
-            "quantity": {
-              "type": "number",
-              "description": "User's activity hours"
-            },
-            "userWaterGoal": {
-              "type": "number",
-              "description": "User's water consumption goal"
-            }
-          }
-        },
-        "example": [
-          {
-            "userWaterGoal": 1500,
-            "date": "2024-09-17T18:09:08.000Z",
-            "quantity": 250,
-            "_id": "66e9c7ed994cd2e9ea7c177e"
-          },
-          {
-            "userWaterGoal": 1500,
-            "date": "2024-09-17T18:09:08.000Z",
-            "quantity": 250,
-            "_id": "66ea7d4bfad188b6b5c10cb1"
-          }
-        ]
-      },
-      "CurrentResponse": {
-        "type": "object",
-        "properties": {
-          "userEmail": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
-          "userToken": {
-            "type": "string",
-            "description": "User's Bearer token"
-          },
-          "userName": {
-            "type": "string",
-            "description": "User's name"
-          },
-          "userAvatar": {
-            "type": "string",
-            "description": "Path to the user's avatar"
-          },
-          "userGender": {
-            "type": "string",
-            "description": "User's name",
-            "enum": ["female", "male"]
-          },
-          "userWeight": {
-            "type": "number",
-            "description": "User's weight"
-          },
-          "userActiveTime": {
-            "type": "number",
-            "description": "User's activity hours"
-          },
-          "userWaterGoal": {
-            "type": "number",
-            "description": "User's water consumption goal"
-          }
-        },
-        "example": {
-          "userName": "Example Name",
-          "userEmail": "example@example.com",
-          "userAvatar": "path/to/photo",
-          "userGender": "female",
-          "userWeight": 65000,
-          "userActiveTime": 2,
-          "userWaterGoal": null,
-          "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4MzgwMywiZXhwIjoxNzI3MDg4NjAzfQ.jxjQpNVl0nJlRhc59yTpL8JaNIG4zE-or_QVkHKqpgs"
-        }
-      },
-
-      "ErrorResponse": {
+      "BadRequestResponse": {
+        "description": "Body doesn't match the requirements",
         "type": "object",
         "properties": {
           "message": { "type": "string", "description": "Reason" }
         },
         "example": {
-          "message": "An error that occurred: not authorized, required field, duplicate, etc"
+          "message": "\"userEmail\" is required"
+        }
+      },
+      "UnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "description": "Reason" }
+        },
+        "example": {
+          "message": "Not authorized"
+        }
+      }
+    },
+    "examples": {
+      "users": {
+        "userEmail": {
+          "type": "string",
+          "description": "User's email",
+          "pattern": "^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$",
+          "example": "useremail@example.com"
+        },
+        "userPassword": {
+          "type": "string",
+          "description": "User's password",
+          "pattern": "^(?=.*[0-9])(?=.*[a-z])(?!.* ).{6,12}$",
+          "example": "qwerty123",
+          "minimum": 6,
+          "maximum": 12
+        },
+        "userToken": {
+          "type": "string",
+          "description": "User's Bearer token"
+        },
+        "userName": {
+          "type": "string",
+          "description": "User's name",
+          "example": "Username"
+        },
+        "userAvatar": {
+          "type": "string",
+          "format": "binary",
+          "description": "Path to the user's avatar"
+        },
+        "userGender": {
+          "type": "string",
+          "description": "User's name",
+          "enum": ["female", "male"],
+          "example": "female"
+        },
+        "userWeight": {
+          "type": "number",
+          "description": "User's weight in grams",
+          "minimum": 30000,
+          "maximum": 635000,
+          "example": 65000
+        },
+        "userActiveTime": {
+          "type": "number",
+          "description": "User's activity time in hours",
+          "minimum": 0,
+          "maximum": 24,
+          "example": 3
+        },
+        "userWaterGoal": {
+          "type": "number",
+          "description": "User's water consumption goal in milliliters",
+          "minimum": 1000,
+          "maximum": 5000,
+          "example": 1500
+        },
+        "trackerSetId": {
+          "type": "string",
+          "description": "ID of the water records set, related to the user"
         }
       }
     },

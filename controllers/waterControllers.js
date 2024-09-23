@@ -30,6 +30,9 @@ const getWater = async (req, res) => {
 
   const result = await waterService.listWater(filter);
 
+  if (result.length === 0)
+    throw HttpError(404, "No water records found for this user");
+
   res.json(result);
 };
 
