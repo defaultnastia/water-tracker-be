@@ -9,6 +9,7 @@ import {
 } from "../schemas/waterSchemas.js";
 import validateBody from "../decorators/validateBody.js";
 import authenticate from "../middlewares/authenticate.js";
+import isValidId from "../middlewares/isValidId.js";
 
 const createWaterMiddleware = validateBody(createWaterSchema);
 const updateWaterMiddleware = validateBody(updateWaterSchema);
@@ -20,14 +21,19 @@ waterRouter.use(authenticate);
 
 waterRouter.get("/", waterControllers.getWater);
 
-waterRouter.get("/:id", waterControllers.getOneWater);
+waterRouter.get("/:id", isValidId, waterControllers.getOneWater);
 
 waterRouter.post("/", createWaterMiddleware, waterControllers.addWaterIncome);
 
-waterRouter.put("/:id", updateWaterMiddleware, waterControllers.updateWater);
+waterRouter.put(
+  "/:id",
+  isValidId,
+  updateWaterMiddleware,
+  waterControllers.updateWater
+);
 
 waterRouter.patch("/", updateDayNormMiddleware, waterControllers.updateDayNorm);
 
-waterRouter.delete("/:id", waterControllers.removeWaterIncome);
+waterRouter.delete("/:id", isValidId, waterControllers.removeWaterIncome);
 
 export default waterRouter;
