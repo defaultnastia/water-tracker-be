@@ -8,7 +8,7 @@ import {
   userSignupSchema,
   userSigninSchema,
   userUpdateSchema,
-  userForgotPasswordSchema,
+  userChangePasswordSchema,
 } from "../schemas/userSchemas.js";
 
 import validateBody from "../decorators/validateBody.js";
@@ -17,7 +17,7 @@ import upload from "../middlewares/upload.js";
 const userSignupMiddleware = validateBody(userSignupSchema);
 const userSigninMiddleware = validateBody(userSigninSchema);
 const userUpdateMiddleware = validateBody(userUpdateSchema);
-const userForgotPasswordMiddleware = validateBody(userForgotPasswordSchema);
+const userChangePasswordMiddleware = validateBody(userChangePasswordSchema);
 
 const authRouter = Router();
 
@@ -40,10 +40,10 @@ authRouter.patch(
 authRouter.get("/", authControllers.getAllUsers);
 
 authRouter.patch(
-  "/forgot-password",
+  "/change-password",
   authenticate,
-  userForgotPasswordMiddleware,
-  authControllers.userForgotPassword
+  userChangePasswordMiddleware,
+  authControllers.userChangePassword
 );
 
 export default authRouter;

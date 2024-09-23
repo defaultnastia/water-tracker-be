@@ -26,7 +26,7 @@ export const userUpdateSchema = Joi.object({
   userWaterGoal: Joi.number(),
 });
 
-export const userForgotPasswordSchema = Joi.object({
+export const userChangePasswordSchema = Joi.object({
   userOldPassword: Joi.string().required(),
   userNewPassword: Joi.string().pattern(passwordRegexp).required(),
 });

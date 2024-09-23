@@ -48,7 +48,7 @@ export const signin = async (data) => {
   };
 };
 
-export const forgotPassword = async (data) => {
+export const changePassword = async (data) => {
   const { _id, userOldPassword, userNewPassword } = data;
   const user = await findUser(_id);
 
