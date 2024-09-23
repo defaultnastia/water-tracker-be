@@ -53,7 +53,10 @@ const userCurrent = async (req, res) => {
 const userLogout = async (req, res) => {
   const { _id } = req.user;
 
-  await authServices.updateUser({ _id }, { accessToken: "", refreshToken: "" });
+  await authServices.updateUser(
+    { _id },
+    { accessToken: null, refreshToken: null }
+  );
 
   res.status(204).json();
 };
