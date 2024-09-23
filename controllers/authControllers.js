@@ -1,6 +1,5 @@
 import cloudinary from "../helpers/cloudinary.js";
 import * as fs from "node:fs/promises";
-
 import * as authServices from "../services/authServices.js";
 
 import controllerWrapper from "../decorators/controllerWrapper.js";
@@ -98,6 +97,20 @@ const userRefreshToken = async (req, res) => {
   const accessToken = await authServices.refreshToken({ _id, token });
 
   res.status(200).json({ accessToken });
+
+const userChangePassword = async (req, res) => {
+  const { _id } = req.user;
+  const { userOldPassword, userNewPassword } = req.body;
+
+  await authServices.changePassword({
+    _id,
+    userOldPassword,
+    userNewPassword,
+  });
+
+  res.status(200).json({
+    message: "Password has been update",
+  });
 };
 
 export default {
@@ -107,5 +120,9 @@ export default {
   userLogout: controllerWrapper(userLogout),
   userUpdate: controllerWrapper(userUpdate),
   getAllUsers: controllerWrapper(getAllUsers),
+
   userRefreshToken: controllerWrapper(userRefreshToken),
+
+  userChangePassword: controllerWrapper(userChangePassword),
+
 };
