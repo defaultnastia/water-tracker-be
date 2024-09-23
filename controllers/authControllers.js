@@ -3,6 +3,7 @@ import * as fs from "node:fs/promises";
 import * as authServices from "../services/authServices.js";
 
 import controllerWrapper from "../decorators/controllerWrapper.js";
+import HttpError from "../helpers/HttpError.js";
 
 const userSignup = async (req, res) => {
   const newUser = await authServices.signup(req.body);
@@ -33,7 +34,6 @@ const userCurrent = async (req, res) => {
     userActiveTime,
     userWaterGoal,
     trackerSetId,
-    userToken,
   } = req.user;
 
   res.json({
@@ -45,7 +45,6 @@ const userCurrent = async (req, res) => {
     userActiveTime,
     userWaterGoal,
     trackerSetId,
-    userToken,
   });
 };
 
@@ -64,13 +63,20 @@ const userUpdate = async (req, res) => {
 
   if (req.file) {
     const { path } = req.file;
-    const { url } = await cloudinary.uploader.upload(path, {
-      folder: "avatars",
-    });
 
-    await fs.unlink(path);
-
-    userAvatar = url;
+    try {
+      const { url } = await cloudinary.uploader.upload(path, {
+        folder: "avatars",
+      });
+      userAvatar = url;
+    } catch (error) {
+      throw HttpError(
+        500,
+        "Something went wrong with uploading the file to cloud"
+      );
+    } finally {
+      await fs.unlink(path);
+    }
   }
 
   await authServices.updateUser({ _id }, { ...req.body, userAvatar });
