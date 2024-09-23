@@ -288,13 +288,13 @@
             "description": "User's email",
             "format": "email"
           },
-          "userToken": {
+          "accessToken": {
             "type": "string",
             "description": "User's Bearer token"
           }
         },
         "example": {
-          "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4Mjc1MCwiZXhwIjoxNzI3MDg3NTUwfQ.IMeRld9fDnMCLfWh7_bveDWLPKdk0wO7YZ8_lD6nO3A",
+          "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4Mjc1MCwiZXhwIjoxNzI3MDg3NTUwfQ.IMeRld9fDnMCLfWh7_bveDWLPKdk0wO7YZ8_lD6nO3A",
           "user": {
             "userEmail": "example@example.com"
           }
@@ -360,7 +360,7 @@
             "description": "User's email",
             "format": "email"
           },
-          "userToken": {
+          "accessToken": {
             "type": "string",
             "description": "User's Bearer token"
           },
@@ -398,7 +398,7 @@
           "userWeight": 65000,
           "userActiveTime": 2,
           "userWaterGoal": null,
-          "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4MzgwMywiZXhwIjoxNzI3MDg4NjAzfQ.jxjQpNVl0nJlRhc59yTpL8JaNIG4zE-or_QVkHKqpgs"
+          "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4MzgwMywiZXhwIjoxNzI3MDg4NjAzfQ.jxjQpNVl0nJlRhc59yTpL8JaNIG4zE-or_QVkHKqpgs"
         }
       },
       "ErrorResponse": {

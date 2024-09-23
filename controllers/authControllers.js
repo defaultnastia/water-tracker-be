@@ -16,10 +16,10 @@ const userSignup = async (req, res) => {
 };
 
 const userSignin = async (req, res) => {
-  const { userToken, user } = await authServices.signin(req.body);
+  const { accessToken, user } = await authServices.signin(req.body);
 
   res.json({
-    userToken,
+    accessToken,
     user,
   });
 };
@@ -34,7 +34,7 @@ const userCurrent = async (req, res) => {
     userActiveTime,
     userWaterGoal,
     trackerSetId,
-    userToken,
+    accessToken,
   } = req.user;
 
   res.json({
@@ -46,14 +46,14 @@ const userCurrent = async (req, res) => {
     userActiveTime,
     userWaterGoal,
     trackerSetId,
-    userToken,
+    accessToken,
   });
 };
 
 const userLogout = async (req, res) => {
   const { _id } = req.user;
 
-  await authServices.updateUser({ _id }, { userToken: "" });
+  await authServices.updateUser({ _id }, { accessToken: "" });
 
   res.status(204).json();
 };
@@ -87,6 +87,16 @@ const getAllUsers = async (_, res) => {
   res.status(200).json(users.length);
 };
 
+const userRefreshToken = async (req, res) => {
+  const { _id } = req.user;
+  const { authorization } = req.headers;
+  const [_, token] = authorization.split(" ");
+
+  const accessToken = await authServices.refreshToken({ _id, token });
+
+  res.status(200).json({ accessToken });
+};
+
 export default {
   userSignup: controllerWrapper(userSignup),
   userSignin: controllerWrapper(userSignin),
@@ -94,4 +104,5 @@ export default {
   userLogout: controllerWrapper(userLogout),
   userUpdate: controllerWrapper(userUpdate),
   getAllUsers: controllerWrapper(getAllUsers),
+  userRefreshToken: controllerWrapper(userRefreshToken),
 };
