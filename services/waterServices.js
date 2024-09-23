@@ -138,13 +138,6 @@ export const updateDayNormWater = async (filter, data) => {
 export const removeWater = async (filter) => {
   const { _id, owner } = filter;
 
-  const removedObject = await Water.aggregate([
-    { $match: { owner } },
-    { $unwind: "$waterRecords" },
-    { $match: { "waterRecords._id": new ObjectId(_id) } },
-    { $replaceRoot: { newRoot: "$waterRecords" } },
-  ]);
-
   const result = await Water.findOneAndUpdate(
     { owner },
     { $pull: { waterRecords: { _id: new ObjectId(_id) } } },
@@ -155,5 +148,5 @@ export const removeWater = async (filter) => {
     throw HttpError(404, `Object with id: ${_id} not found`);
   }
 
-  return removedObject;
+  return result;
 };

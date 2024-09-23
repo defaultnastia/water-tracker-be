@@ -25,3 +25,8 @@ export const userUpdateSchema = Joi.object({
   userActiveTime: Joi.number().min(0).max(24),
   userWaterGoal: Joi.number().min(1000).max(15000),
 });
+
+export const userChangePasswordSchema = Joi.object({
+  userOldPassword: Joi.string().required(),
+  userNewPassword: Joi.string().pattern(passwordRegexp).required(),
+});
