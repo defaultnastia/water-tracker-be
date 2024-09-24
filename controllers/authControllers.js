@@ -19,11 +19,14 @@ const userSignup = async (req, res) => {
 };
 
 const userSignin = async (req, res) => {
-  const { accessToken, user } = await authServices.signin(req.body);
+  const { accessToken, refreshToken, userData } = await authServices.signin(
+    req.body
+  );
 
   res.json({
     accessToken,
-    user,
+    refreshToken,
+    userData,
   });
 };
 

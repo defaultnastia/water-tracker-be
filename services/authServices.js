@@ -41,11 +41,18 @@ export const signin = async (data) => {
 
   await updateUser({ _id: user._id }, { accessToken, refreshToken });
 
+  const {
+    accessToken: _accessToken,
+    refreshToken: _refreshToken,
+    userPassword: _userPassword,
+    verificationToken: _verificationToken,
+    ...userData
+  } = user.toObject();
+
   return {
     accessToken,
-    user: {
-      userEmail: user.userEmail,
-    },
+    refreshToken,
+    userData,
   };
 };
 
