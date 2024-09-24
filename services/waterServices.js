@@ -147,6 +147,4 @@ export const removeWater = async (filter) => {
   if (!result) {
     throw HttpError(404, `Object with id: ${_id} not found`);
   }
-
-  return result;
 };
