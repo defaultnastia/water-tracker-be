@@ -18,7 +18,7 @@ const authenticate = async (req, _, next) => {
     ? verifyToken(token, true)
     : verifyToken(token, false);
 
-  if (error) return next(HttpError(401, error.message));
+  if (error) return next(HttpError(401, `Not authorized + ${error.message}`));
 
   const { id } = data;
   const user = await findUser({ _id: id });
