@@ -46,10 +46,11 @@ authRouter.get(
 );
 
 authRouter.patch(
-  "/change-password",
-  authenticate,
+  "/change-password/:verificationToken",
   userChangePasswordMiddleware,
   authControllers.userChangePassword
 );
+
+authRouter.post("/forgot-password", authControllers.userForgotPassword);
 
 export default authRouter;
