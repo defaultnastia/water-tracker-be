@@ -110,7 +110,7 @@ const userRefreshToken = async (req, res) => {
 
 const userChangePassword = async (req, res) => {
   const { verificationToken } = req.params;
-  const { userOldPassword, userNewPassword } = req.body;
+  const { userNewPassword } = req.body;
   const user = await authServices.findUser({ verificationToken });
 
   if (!user) throw HttpError(404, "User not found");
@@ -122,7 +122,6 @@ const userChangePassword = async (req, res) => {
 
   await authServices.changePassword({
     _id,
-    userOldPassword,
     userNewPassword,
   });
 
