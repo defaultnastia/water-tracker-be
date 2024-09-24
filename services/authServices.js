@@ -36,8 +36,8 @@ export const signin = async (data) => {
     id: user._id,
   };
 
-  const accessToken = createToken(payload, 1);
-  const refreshToken = createToken(payload, 24);
+  const accessToken = createToken(payload, 1, false);
+  const refreshToken = createToken(payload, 24, true);
 
   await updateUser({ _id: user._id }, { accessToken, refreshToken });
 
@@ -53,7 +53,7 @@ export const refreshToken = async (data) => {
   const { _id, token } = data;
   const user = await findUser({ _id });
 
-  if (!user) throw HttpError(409, "User not found");
+  if (!user) throw HttpError(400, "User not found");
 
   if (token !== user.refreshToken)
     throw HttpError(400, "Refresh token does not match");
@@ -62,7 +62,7 @@ export const refreshToken = async (data) => {
     id: user._id,
   };
 
-  const accessToken = createToken(payload, 1);
+  const accessToken = createToken(payload, 1, false);
 
   await updateUser({ _id: user._id }, { accessToken });
 

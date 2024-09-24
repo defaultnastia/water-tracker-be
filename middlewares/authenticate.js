@@ -14,7 +14,9 @@ const authenticate = async (req, _, next) => {
 
   if (bearer !== "Bearer") return next(HttpError(401, "Bearer not found"));
 
-  const { data, error } = verifyToken(token);
+  const { data, error } = isRefreshToken
+    ? verifyToken(token, true)
+    : verifyToken(token, false);
 
   if (error) return next(HttpError(401, error.message));
 

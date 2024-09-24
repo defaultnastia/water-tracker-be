@@ -1,11 +1,26 @@
 import jwt from "jsonwebtoken";
 
-export const createToken = (payload, expires) =>
-  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: `${expires}h` });
+export const createToken = (payload, expires, isRefresh) => {
+  if (isRefresh) {
+    return jwt.sign(payload, process.env.JWT_SECRET_REFRESH, {
+      expiresIn: `${expires}h`,
+    });
+  } else {
+    return jwt.sign(payload, process.env.JWT_SECRET_ACCESS, {
+      expiresIn: `${expires}h`,
+    });
+  }
+};
 
-export const verifyToken = (token) => {
+export const verifyToken = (token, isRefresh) => {
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    let payload = null;
+
+    if (isRefresh) {
+      payload = jwt.verify(token, process.env.JWT_SECRET_REFRESH);
+    } else {
+      payload = jwt.verify(token, process.env.JWT_SECRET_ACCESS);
+    }
 
     return { data: payload };
   } catch (error) {
