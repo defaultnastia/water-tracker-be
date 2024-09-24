@@ -6,6 +6,7 @@ import { findUser } from "../services/authServices.js";
 
 const authenticate = async (req, _, next) => {
   const { authorization } = req.headers;
+  const isRefreshToken = req.originalUrl.includes("refresh-token");
 
   if (!authorization) return next(HttpError(401, "Not authorized"));
 
@@ -22,7 +23,11 @@ const authenticate = async (req, _, next) => {
 
   if (!user) return next(HttpError(401, "Not authorized"));
 
-  if (!user.accessToken) return next(HttpError(401, "Not authorized"));
+  if (isRefreshToken && !user.refreshToken)
+    return next(HttpError(401, "Not authorized"));
+
+  if (!isRefreshToken && !user.accessToken)
+    return next(HttpError(401, "Not authorized"));
 
   req.user = user;
 

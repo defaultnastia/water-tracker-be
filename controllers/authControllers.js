@@ -33,7 +33,6 @@ const userCurrent = async (req, res) => {
     userActiveTime,
     userWaterGoal,
     trackerSetId,
-    accessToken,
   } = req.user;
 
   res.json({
@@ -45,7 +44,6 @@ const userCurrent = async (req, res) => {
     userActiveTime,
     userWaterGoal,
     trackerSetId,
-    accessToken,
   });
 };
 
@@ -97,6 +95,7 @@ const userRefreshToken = async (req, res) => {
   const accessToken = await authServices.refreshToken({ _id, token });
 
   res.status(200).json({ accessToken });
+};
 
 const userChangePassword = async (req, res) => {
   const { _id } = req.user;
@@ -120,9 +119,6 @@ export default {
   userLogout: controllerWrapper(userLogout),
   userUpdate: controllerWrapper(userUpdate),
   getAllUsers: controllerWrapper(getAllUsers),
-
   userRefreshToken: controllerWrapper(userRefreshToken),
-
   userChangePassword: controllerWrapper(userChangePassword),
-
 };
