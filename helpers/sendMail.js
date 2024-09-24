@@ -7,7 +7,7 @@ const sendMail = (email, token) => {
     to: email,
     from: "n.nestertsovv@gmail.com",
     subject: "Password recovery | Water Tracker",
-    html: `<a href="${process.env.FRONT_URL}/api/users/change-password/${token}">Click for reset your password.</a>`,
+    html: `<a href="${process.env.FRONT_URL}/password-recovery/${token}">Click for reset your password.</a>`,
   };
 
   sgMail
