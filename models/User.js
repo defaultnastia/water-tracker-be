@@ -45,7 +45,11 @@ const userSchema = new Schema(
       ref: "water",
       default: null,
     },
-    userToken: {
+    accessToken: {
+      type: String,
+      default: null,
+    },
+    refreshToken: {
       type: String,
       default: null,
     },

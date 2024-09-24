@@ -39,6 +39,12 @@ authRouter.patch(
 
 authRouter.get("/", authControllers.getAllUsers);
 
+authRouter.get(
+  "/refresh-token",
+  authenticate,
+  authControllers.userRefreshToken
+);
+
 authRouter.patch(
   "/change-password",
   authenticate,
