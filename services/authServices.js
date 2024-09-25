@@ -84,5 +84,8 @@ export const changePassword = async (data) => {
 
   const hashNewPassword = await bcrypt.hash(userNewPassword, 10);
 
-  return await updateUser({ _id }, { userPassword: hashNewPassword });
+  return await updateUser(
+    { _id },
+    { verificationToken: null, userPassword: hashNewPassword }
+  );
 };

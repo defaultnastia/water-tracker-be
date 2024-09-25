@@ -8,8 +8,7 @@ import HttpError from "../helpers/HttpError.js";
 import sendMail from "../helpers/sendMail.js";
 
 const userSignup = async (req, res) => {
-  const verificationToken = uuidv4();
-  const newUser = await authServices.signup({ ...req.body, verificationToken });
+  const newUser = await authServices.signup({ ...req.body });
 
   res.status(201).json({
     userData: {
@@ -129,6 +128,7 @@ const userChangePassword = async (req, res) => {
 
 const userForgotPassword = async (req, res) => {
   const { userEmail } = req.body;
+  const verificationToken = uuidv4();
 
   if (!userEmail) throw HttpError(400, "Missing required field userEmail");
 
@@ -136,7 +136,11 @@ const userForgotPassword = async (req, res) => {
 
   if (!user) throw HttpError(404, "User not found");
 
-  sendMail(user.userEmail, user.verificationToken);
+  const { _id } = user;
+
+  await authServices.updateUser({ _id }, { verificationToken });
+
+  sendMail(user.userEmail, verificationToken);
 
   res.status(200).json({
     message: "A password reset email has been sent",
