@@ -398,7 +398,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/BadRequestResponse"
                 }
               }
             }
@@ -408,7 +408,60 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current users quantity",
+        "responses": {
+          "200": {
+            "description": "Request successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "example": 18
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/refresh-token": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Refresh access token (use refresh token as auth)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Access token refreshed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": {
+                    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjNmNTRlMjAxOWJkZGFkMzRmNTAxNiIsImlhdCI6MTcyNzI2Nzg1NCwiZXhwIjoxNzI3MjcxNDU0fQ.6MD18uIKIh3K7Z6y67GOPY0dKbUairKg9-vlB7OnjT4"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
                 }
               }
             }
@@ -546,7 +599,7 @@
                     "message": { "type": "string", "description": "Reason" }
                   },
                   "example": {
-                    "message": "Verification token does not match"
+                    "message": "Verification token does not match | User not found"
                   }
                 }
               }
@@ -1098,7 +1151,7 @@
           "message": { "type": "string", "description": "Reason" }
         },
         "example": {
-          "message": "Not authorized"
+          "message": "Not authorized | Not authorized: invalid signature"
         }
       }
     },
