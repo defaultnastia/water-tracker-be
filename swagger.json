@@ -57,15 +57,20 @@
                     "user": {
                       "type": "object",
                       "properties": {
-                        "email": {
-                          "$ref": "#/components/examples/users/userEmail"
+                        "userData": {
+                          "type": "object",
+                          "properties": {
+                            "UserEmail": {
+                              "$ref": "#/components/examples/users/userEmail"
+                            }
+                          }
                         }
                       }
                     }
                   },
                   "example": {
-                    "user": {
-                      "email": "example@example.com"
+                    "userData": {
+                      "userEmail": "yihaga5869111@exweme.com"
                     }
                   }
                 }
@@ -133,19 +138,55 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "userToken": {
-                      "$ref": "#/components/examples/users/userToken"
+                    "accessToken": {
+                      "$ref": "#/components/examples/users/accessToken"
                     },
-                    "user": {
-                      "userEmail": {
-                        "$ref": "#/components/examples/users/userEmail"
+                    "refreshToken": {
+                      "$ref": "#/components/examples/users/refreshToken"
+                    },
+                    "userData": {
+                      "type": "object",
+                      "properties": {
+                        "UserEmail": {
+                          "$ref": "#/components/examples/users/userEmail"
+                        },
+                        "userName": {
+                          "$ref": "#/components/examples/users/userName"
+                        },
+                        "userAvatar": {
+                          "$ref": "#/components/examples/users/userAvatar"
+                        },
+                        "userGender": {
+                          "$ref": "#/components/examples/users/userGender"
+                        },
+                        "userWeight": {
+                          "$ref": "#/components/examples/users/userWeight"
+                        },
+                        "userActiveTime": {
+                          "$ref": "#/components/examples/users/userActiveTime"
+                        },
+                        "userWaterGoal": {
+                          "$ref": "#/components/examples/users/userWaterGoal"
+                        },
+                        "trackerSetId": {
+                          "$ref": "#/components/examples/users/trackerSetId"
+                        }
                       }
                     }
                   },
                   "example": {
-                    "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTdmMGNjNmM4ZDc4MTVlOTllMGE3YyIsImlhdCI6MTcyNjQ4Mjc1MCwiZXhwIjoxNzI3MDg3NTUwfQ.IMeRld9fDnMCLfWh7_bveDWLPKdk0wO7YZ8_lD6nO3A",
-                    "user": {
-                      "userEmail": "example@example.com"
+                    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjNlMzM4YmRmZmI0ODU5ZmRjYTBlZiIsImlhdCI6MTcyNzI1OTQ2NCwiZXhwIjoxNzI3MjYzMDY0fQ.Sa0LA1eVuG3EqaSaxqz1-wePt3niVQRjf-jhYup-BMc",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjNlMzM4YmRmZmI0ODU5ZmRjYTBlZiIsImlhdCI6MTcyNzI1OTQ2NCwiZXhwIjoxNzI3MzQ1ODY0fQ.rKXuxhLjmZFD06sCo8uOuBRtIDaupjjOWC4oMIzh6ks",
+                    "userData": {
+                      "_id": "66f3e338bdffb4859fdca0ef",
+                      "userName": null,
+                      "userEmail": "yihaga5869@exweme.com",
+                      "userAvatar": null,
+                      "userGender": "female",
+                      "userWeight": null,
+                      "userActiveTime": null,
+                      "userWaterGoal": null,
+                      "trackerSetId": "66f3e3a7bdffb4859fdca0f5"
                     }
                   }
                 }
@@ -198,40 +239,56 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "userEmail": {
-                      "$ref": "#/components/examples/users/userEmail"
+                    "accessToken": {
+                      "$ref": "#/components/examples/users/accessToken"
                     },
-                    "userName": {
-                      "$ref": "#/components/examples/users/userName"
+                    "refreshToken": {
+                      "$ref": "#/components/examples/users/refreshToken"
                     },
-                    "userAvatar": {
-                      "$ref": "#/components/examples/users/userAvatar"
-                    },
-                    "userGender": {
-                      "$ref": "#/components/examples/users/userGender"
-                    },
-                    "userWeight": {
-                      "$ref": "#/components/examples/users/userWeight"
-                    },
-                    "userActiveTime": {
-                      "$ref": "#/components/examples/users/userActiveTime"
-                    },
-                    "userWaterGoal": {
-                      "$ref": "#/components/examples/users/userWaterGoal"
-                    },
-                    "trackerSetId": {
-                      "$ref": "#/components/examples/users/trackerSetId"
+                    "userData": {
+                      "type": "object",
+                      "properties": {
+                        "UserEmail": {
+                          "$ref": "#/components/examples/users/userEmail"
+                        },
+                        "userName": {
+                          "$ref": "#/components/examples/users/userName"
+                        },
+                        "userAvatar": {
+                          "$ref": "#/components/examples/users/userAvatar"
+                        },
+                        "userGender": {
+                          "$ref": "#/components/examples/users/userGender"
+                        },
+                        "userWeight": {
+                          "$ref": "#/components/examples/users/userWeight"
+                        },
+                        "userActiveTime": {
+                          "$ref": "#/components/examples/users/userActiveTime"
+                        },
+                        "userWaterGoal": {
+                          "$ref": "#/components/examples/users/userWaterGoal"
+                        },
+                        "trackerSetId": {
+                          "$ref": "#/components/examples/users/trackerSetId"
+                        }
+                      }
                     }
                   },
                   "example": {
-                    "userName": "Username",
-                    "userEmail": "userS4@example.com",
-                    "userAvatar": null,
-                    "userGender": "female",
-                    "userWeight": 65000,
-                    "userActiveTime": 3,
-                    "userWaterGoal": 1500,
-                    "trackerSetId": "66ec7b31505ca8ba4996b088"
+                    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjNlMzM4YmRmZmI0ODU5ZmRjYTBlZiIsImlhdCI6MTcyNzI1OTQ2NCwiZXhwIjoxNzI3MjYzMDY0fQ.Sa0LA1eVuG3EqaSaxqz1-wePt3niVQRjf-jhYup-BMc",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjNlMzM4YmRmZmI0ODU5ZmRjYTBlZiIsImlhdCI6MTcyNzI1OTQ2NCwiZXhwIjoxNzI3MzQ1ODY0fQ.rKXuxhLjmZFD06sCo8uOuBRtIDaupjjOWC4oMIzh6ks",
+                    "userData": {
+                      "_id": "66f3e338bdffb4859fdca0ef",
+                      "userName": null,
+                      "userEmail": "yihaga5869@exweme.com",
+                      "userAvatar": null,
+                      "userGender": "female",
+                      "userWeight": null,
+                      "userActiveTime": null,
+                      "userWaterGoal": null,
+                      "trackerSetId": "66f3e3a7bdffb4859fdca0f5"
+                    }
                   }
                 }
               }
@@ -922,9 +979,13 @@
           "minimum": 6,
           "maximum": 12
         },
-        "userToken": {
+        "accessToken": {
           "type": "string",
-          "description": "User's Bearer token"
+          "description": "User's access Bearer token"
+        },
+        "refreshToken": {
+          "type": "string",
+          "description": "User's refresh Bearer token"
         },
         "userName": {
           "type": "string",
