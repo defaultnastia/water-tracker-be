@@ -12,8 +12,8 @@ const userSignup = async (req, res) => {
   const newUser = await authServices.signup({ ...req.body, verificationToken });
 
   res.status(201).json({
-    user: {
-      email: newUser.userEmail,
+    userData: {
+      userEmail: newUser.userEmail,
     },
   });
 };
@@ -31,26 +31,20 @@ const userSignin = async (req, res) => {
 };
 
 const userCurrent = async (req, res) => {
+  const user = req.user;
+
   const {
-    userName,
-    userEmail,
-    userAvatar,
-    userGender,
-    userWeight,
-    userActiveTime,
-    userWaterGoal,
-    trackerSetId,
-  } = req.user;
+    accessToken,
+    refreshToken,
+    userPassword,
+    verificationToken,
+    ...userData
+  } = user.toObject();
 
   res.json({
-    userName,
-    userEmail,
-    userAvatar,
-    userGender,
-    userWeight,
-    userActiveTime,
-    userWaterGoal,
-    trackerSetId,
+    accessToken: user.accessToken,
+    refreshToken: user.refreshToken,
+    userData,
   });
 };
 
