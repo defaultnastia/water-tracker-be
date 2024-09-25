@@ -1144,7 +1144,7 @@
         },
         "userWeight": {
           "type": "number",
-          "description": "User's weight in grams",
+          "description": "User's weight in kilos",
           "minimum": 3,
           "maximum": 635,
           "example": 65
