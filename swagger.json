@@ -3,18 +3,15 @@
   "info": {
     "version": "1.0.2",
     "title": "Aqua Tracker API Documentation",
-    "description": "Description of the /users and /water endpoints"
+    "description": "Description of public and private API endpoints for the [Aquatracker](https://aqua-track.netlify.app/) web-application"
   },
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
-  "servers": [
-    { "url": "https://water-tracker-be-production.up.railway.app" },
-    { "url": "http://localhost:3000" }
-  ],
+  "servers": [{ "url": "https://water-tracker-be-production.up.railway.app" }],
   "tags": [
     {
       "name": "Users",
-      "description": "User authorization endpoints"
+      "description": "User authorization and data endpoints"
     },
     {
       "name": "Water",
@@ -353,6 +350,9 @@
                   "userEmail": {
                     "$ref": "#/components/examples/users/userEmail"
                   },
+                  "userName": {
+                    "$ref": "#/components/examples/users/userName"
+                  },
                   "userAvatar": {
                     "$ref": "#/components/examples/users/userAvatar"
                   },
@@ -539,7 +539,7 @@
         }
       }
     },
-    "/api/users/change-password/:verificationToken": {
+    "/api/users/password-recovery/{verificationToken}": {
       "patch": {
         "tags": ["Users"],
         "summary": "Changing password using token (from forgot pwd flow)",
@@ -746,7 +746,7 @@
                   "waterRecords": {
                     "type": "array",
                     "items": {
-                      "water": { "$ref": "#/components/examples/water/water" }
+                      "date": { "$ref": "#/components/examples/water/date" }
                     },
                     "quantity": {
                       "$ref": "#/components/examples/water/quantity"
@@ -770,6 +770,53 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "Water tracker set and a new record were added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "owner": {
+                      "type": "string"
+                    },
+                    "waterRecords": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "userWaterGoal": {
+                            "$ref": "#/components/examples/water/userWaterGoal"
+                          },
+                          "date": {
+                            "$ref": "#/components/examples/water/date"
+                          },
+                          "quantity": {
+                            "$ref": "#/components/examples/water/quantity"
+                          },
+                          "_id": {
+                            "$ref": "#/components/examples/water/_id"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "owner": "66f4485fd7375e3efb0edb5d",
+                    "waterRecords": [
+                      {
+                        "userWaterGoal": 1500,
+                        "date": "2024-09-19T19:23:46.444Z",
+                        "quantity": 200,
+                        "_id": "66f44b0ed7375e3efb0edb9b"
+                      }
+                    ],
+                    "_id": "66f44b0ed7375e3efb0edb9a"
+                  }
+                }
+              }
+            }
+          },
           "200": {
             "description": "Water record was added successful",
             "content": {
