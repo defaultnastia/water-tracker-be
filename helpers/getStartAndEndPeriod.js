@@ -19,7 +19,7 @@ const getStartAndEndOfPeriod = (year, month, day) => {
     endPeriod = new Date(year, month, 0);
     // endPeriodLTZ = adjustTimezone(endPeriod);
   } else {
-    v = new Date(year, month - 1, day, 0, 0, 0, 0);
+    startPeriod = new Date(year, month - 1, day, 0, 0, 0, 0);
     // startPeriodLTZ = adjustTimezone(startPeriod);
     endPeriod = new Date(year, month - 1, day, 23, 59, 59, 999);
     // endPeriodLTZ = adjustTimezone(endPeriod);
