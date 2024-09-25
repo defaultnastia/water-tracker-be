@@ -4,11 +4,11 @@ import controllerWrapper from "../decorators/controllerWrapper.js";
 import HttpError from "../helpers/HttpError.js";
 
 const getWater = async (req, res) => {
-  const { year, month, day } = req.query;
+  const { year, month, day, timezoneOffset } = req.query;
   const { _id: owner } = req.user;
 
-  if (!year || !month) {
-    throw HttpError(400, "Year, month are required in request");
+  if (!year || !month || !timezoneOffset) {
+    throw HttpError(400, "Year, month and timezone are required in request");
   }
 
   let filter;
@@ -18,6 +18,7 @@ const getWater = async (req, res) => {
       owner,
       year,
       month,
+      timezoneOffset,
     };
   } else {
     filter = {
@@ -25,6 +26,7 @@ const getWater = async (req, res) => {
       year,
       month,
       day,
+      timezoneOffset,
     };
   }
 

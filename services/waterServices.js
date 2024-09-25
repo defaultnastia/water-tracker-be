@@ -7,9 +7,14 @@ import User from "../models/User.js";
 const { ObjectId } = mongoose.Types;
 
 export const listWater = async (filter) => {
-  const { year, month, day, owner } = filter;
+  const { year, month, day, timezoneOffset, owner } = filter;
 
-  const { startPeriod, endPeriod } = getStartAndEndOfPeriod(year, month, day);
+  const { startPeriodLTZ, endPeriodLTZ } = getStartAndEndOfPeriod(
+    year,
+    month,
+    day,
+    timezoneOffset
+  );
 
   const waters = await Water.aggregate([
     { $match: { owner } },
@@ -18,7 +23,7 @@ export const listWater = async (filter) => {
     },
     {
       $match: {
-        "waterRecords.date": { $gte: startPeriod, $lt: endPeriod },
+        "waterRecords.date": { $gte: startPeriodLTZ, $lt: endPeriodLTZ },
       },
     },
     {

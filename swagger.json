@@ -625,6 +625,17 @@
           },
           {
             "in": "query",
+            "name": "timezoneOffset",
+            "schema": {
+              "type": "integer",
+              "minimum": -12,
+              "maximum": 14
+            },
+            "required": true,
+            "description": "Timezone difference to filter the water consumption records"
+          },
+          {
+            "in": "query",
             "name": "month",
             "schema": {
               "type": "integer",
