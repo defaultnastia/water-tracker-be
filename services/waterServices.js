@@ -12,8 +12,7 @@ export const listWater = async (filter) => {
   const { startPeriodLTZ, endPeriodLTZ } = getStartAndEndOfPeriod(
     year,
     month,
-    day,
-    timezoneOffset
+    day
   );
 
   const waters = await Water.aggregate([
@@ -22,8 +21,18 @@ export const listWater = async (filter) => {
       $unwind: "$waterRecords",
     },
     {
+      $addFields: {
+        "waterRecords.adjustedDate": {
+          $add: [
+            "$waterRecords.date",
+            { $multiply: [timezoneOffset, 60 * 60000] },
+          ],
+        },
+      },
+    },
+    {
       $match: {
-        "waterRecords.date": { $gte: startPeriodLTZ, $lt: endPeriodLTZ },
+        "waterRecords.adjustedDate": { $gte: startPeriod, $lt: endPeriod },
       },
     },
     {

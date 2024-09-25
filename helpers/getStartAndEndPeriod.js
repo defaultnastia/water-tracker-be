@@ -1,28 +1,28 @@
-const getStartAndEndOfPeriod = (year, month, day, timezoneOffset) => {
+const getStartAndEndOfPeriod = (year, month, day) => {
   let startPeriod;
   let endPeriod;
-  let startPeriodLTZ;
-  let endPeriodLTZ;
+  // let startPeriodLTZ;
+  // let endPeriodLTZ;
 
-  const adjustTimezone = (time) => {
-    const offsetTime = new Date(time + timezoneOffset * 60 * 1000);
-    console.log("Offset time: ", offsetTime);
-    console.log("Time from client: ", time);
-    console.log("Time from client in server time: ", new Date(time));
+  // const adjustTimezone = (time) => {
+  //   const offsetTime = new Date(time + timezoneOffset * 60 * 1000);
+  //   console.log("Offset time: ", offsetTime);
+  //   console.log("Time from client: ", time);
+  //   console.log("Time from client in server time: ", new Date(time));
 
-    return offsetTime;
-  };
+  //   return offsetTime;
+  // };
 
   if (!day) {
     startPeriod = new Date(year, month - 1, 1);
-    startPeriodLTZ = adjustTimezone(startPeriod);
+    // startPeriodLTZ = adjustTimezone(startPeriod);
     endPeriod = new Date(year, month, 0);
-    endPeriodLTZ = adjustTimezone(endPeriod);
+    // endPeriodLTZ = adjustTimezone(endPeriod);
   } else {
-    startPeriod = new Date(year, month - 1, day, 0, 0, 0, 0);
-    startPeriodLTZ = adjustTimezone(startPeriod);
+    v = new Date(year, month - 1, day, 0, 0, 0, 0);
+    // startPeriodLTZ = adjustTimezone(startPeriod);
     endPeriod = new Date(year, month - 1, day, 23, 59, 59, 999);
-    endPeriodLTZ = adjustTimezone(endPeriod);
+    // endPeriodLTZ = adjustTimezone(endPeriod);
   }
 
   // if (!day) {
@@ -37,7 +37,7 @@ const getStartAndEndOfPeriod = (year, month, day, timezoneOffset) => {
   //   endPeriodLTZ = adjustTimezone(endPeriod);
   // }
 
-  return { startPeriodLTZ, endPeriodLTZ };
+  return { startPeriod, endPeriod };
 };
 
 export default getStartAndEndOfPeriod;
