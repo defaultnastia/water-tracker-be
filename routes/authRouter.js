@@ -1,18 +1,14 @@
 import { Router } from "express";
-
 import authenticate from "../middlewares/authenticate.js";
-
+import upload from "../middlewares/upload.js";
 import authControllers from "../controllers/authControllers.js";
-
+import validateBody from "../decorators/validateBody.js";
 import {
   userSignupSchema,
   userSigninSchema,
   userUpdateSchema,
   userChangePasswordSchema,
 } from "../schemas/userSchemas.js";
-
-import validateBody from "../decorators/validateBody.js";
-import upload from "../middlewares/upload.js";
 
 const userSignupMiddleware = validateBody(userSignupSchema);
 const userSigninMiddleware = validateBody(userSigninSchema);

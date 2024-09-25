@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 import { handleSaveError, setUpdateOptions } from "./hooks.js";
 import { emailRegExp, gendersList } from "../constants/user-constants.js";
 

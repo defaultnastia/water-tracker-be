@@ -1,8 +1,8 @@
-import cloudinary from "../helpers/cloudinary.js";
 import * as fs from "node:fs/promises";
-import * as authServices from "../services/authServices.js";
 import { v4 as uuidv4 } from "uuid";
+import cloudinary from "../helpers/cloudinary.js";
 
+import * as authServices from "../services/authServices.js";
 import controllerWrapper from "../decorators/controllerWrapper.js";
 import HttpError from "../helpers/HttpError.js";
 import sendMail from "../helpers/sendMail.js";

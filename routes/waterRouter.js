@@ -1,15 +1,13 @@
 import express from "express";
-
+import validateBody from "../decorators/validateBody.js";
+import authenticate from "../middlewares/authenticate.js";
+import isValidId from "../middlewares/isValidId.js";
 import waterControllers from "../controllers/waterControllers.js";
-
 import {
   createWaterSchema,
   updateWaterSchema,
   updateDayNormSchema,
 } from "../schemas/waterSchemas.js";
-import validateBody from "../decorators/validateBody.js";
-import authenticate from "../middlewares/authenticate.js";
-import isValidId from "../middlewares/isValidId.js";
 
 const createWaterMiddleware = validateBody(createWaterSchema);
 const updateWaterMiddleware = validateBody(updateWaterSchema);

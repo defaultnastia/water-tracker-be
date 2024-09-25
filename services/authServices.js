@@ -1,7 +1,5 @@
 import bcrypt from "bcryptjs";
-
 import User from "../models/User.js";
-
 import HttpError from "../helpers/HttpError.js";
 import { createToken } from "../helpers/jwt.js";
 
