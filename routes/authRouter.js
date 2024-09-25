@@ -46,7 +46,7 @@ authRouter.get(
 );
 
 authRouter.patch(
-  "/change-password/:verificationToken",
+  "/password-recovery/:verificationToken",
   userChangePasswordMiddleware,
   authControllers.userChangePassword
 );
