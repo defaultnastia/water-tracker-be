@@ -21,7 +21,7 @@ export const userUpdateSchema = Joi.object({
   userEmail: Joi.string().pattern(emailRegExp),
   userAvatar: Joi.string(),
   userGender: Joi.string().valid(...gendersList),
-  userWeight: Joi.number().min(30000).max(635000),
+  userWeight: Joi.number().min(3).max(635),
   userActiveTime: Joi.number().min(0).max(24),
   userWaterGoal: Joi.number().min(1000).max(15000),
 });

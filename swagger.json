@@ -416,6 +416,145 @@
         }
       }
     },
+    "/api/users/forgot-password": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Requesting password update",
+        "requestBody": {
+          "description": "Forgot password change",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userEmail": {
+                    "$ref": "#/components/examples/users/userEmail"
+                  }
+                },
+                "required": ["userEmail"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User requested password change",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Information"
+                    }
+                  },
+                  "example": {
+                    "message": "A password reset email has been sent"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No user with this email found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "description": "Reason" }
+                  },
+                  "example": {
+                    "message": "User not found"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/change-password/:verificationToken": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Changing password using token (from forgot pwd flow)",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "verificationToken",
+            "schema": { "type": "string" },
+            "required": "true",
+            "description": "Token to verify user's identity"
+          }
+        ],
+        "requestBody": {
+          "description": "Password change object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userNewPassword": {
+                    "$ref": "#/components/examples/users/userPassword"
+                  }
+                },
+                "required": ["userEmail"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password is changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Information"
+                    }
+                  },
+                  "example": {
+                    "message": "Password has been update"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No user with this token found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "description": "Reason" }
+                  },
+                  "example": {
+                    "message": "Verification token does not match"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/water/": {
       "get": {
         "tags": ["Water"],
@@ -1006,9 +1145,9 @@
         "userWeight": {
           "type": "number",
           "description": "User's weight in grams",
-          "minimum": 30000,
-          "maximum": 635000,
-          "example": 65000
+          "minimum": 3,
+          "maximum": 635,
+          "example": 65
         },
         "userActiveTime": {
           "type": "number",
