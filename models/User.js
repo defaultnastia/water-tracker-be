@@ -38,7 +38,7 @@ const userSchema = new Schema(
     },
     userWaterGoal: {
       type: Number,
-      default: null,
+      default: 1800,
     },
     trackerSetId: {
       type: Schema.Types.ObjectId,
